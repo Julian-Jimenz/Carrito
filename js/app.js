@@ -12,6 +12,12 @@ let agregarAlcarrito=[];
 function cargarEventListeners(){
     listaCursos.addEventListener('click', agregarCurso);
 
+// cargar el carrito con el localStorage
+    document.addEventListener('DOMContentLoaded',()=>{
+        articulosCarrito = JSON.parse(localStorage.getItem('carrito'))|| [];
+        carritoHTML()
+    })
+
 
     carrito.addEventListener('click',eliminarCurso);
 
@@ -137,9 +143,13 @@ limpiarHTML()
 
     });
 
+sincronizarStorage()
 
 
+}
 
+function sincronizarStorage(){
+    localStorage.setItem('carrito', JSON.stringify(articulosCarrito))
 }
 
 function limpiarHTML(){
@@ -150,18 +160,3 @@ while(contenedorCarrito.firstChild){
 
 }
 
-
-function agregarCurso(e) {
-    e.preventDefault();
-    if (e.target.classList.contains('agregar-carrito')) {
-        const cursoSeleccionado = e.target.parentElement.parentElement;
-        leerDatosCurso(cursoSeleccionado);
-        
-        // Actualizar la cantidad de productos en el carrito
-        const cantidadCarrito = contenedorCarrito.querySelectorAll('tr').length;
-        console.log('La cantidad en el carrito:', cantidadCarrito);
-        
-        // Mostrar la cantidad en el elemento imagenCarrito
-        imagenCarrito.textContent = cantidadCarrito;
-    }
-}
